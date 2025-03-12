@@ -13,38 +13,40 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # Create build directory
-    - name: Create build directory
-      run: mkdir build
+    # Install dependencies (CMake, Make, g++)
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install -y cmake g++ make
 
-    # Configure CMake
+    # Create build directory and configure project
     - name: Configure CMake
-      run: cmake ../.
+      run: |
+        mkdir -p build
+        cd build
+        cmake ..
 
-    # Build the project
+    # Build the project with Make
     - name: Build the project
-      run: make
+      run: |
+        cd build
+        make
 
     # Run the executable
     - name: Run the executable
-      run: ./raytracer 
+      run: ./build/raytracer
 
-    - name: Enter test directory
-      run: cd ../test
+    # Create and configure test build directory
+    - name: Configure CMake for Tests
+      run: |
+        mkdir -p test/build
+        cd test/build
+        cmake ../..
 
-    # Create build directory
-    - name: Create build directory
-      run: mkdir build
-
-    # Configure CMake
-    - name: Configure CMake
-      run: cmake ../.
-
-    # Build the project
-    - name: Build the project
-      run: make
+    # Build the tests with Make
+    - name: Build Tests
+      run: |
+        cd test/build
+        make
 
     # Run the tests
-    - name: Run tests
-      run: ./vec3_test
-
+    - name: Run Tests
+      run: ./test/build/vec3_test
