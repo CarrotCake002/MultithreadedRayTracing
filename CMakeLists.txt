@@ -15,7 +15,6 @@ file(GLOB_RECURSE SRC_FILES "src/*.cpp")
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/include/Vector)
 
-
 # Define the executable
 add_executable(raytracer ${SRC_FILES})
 
