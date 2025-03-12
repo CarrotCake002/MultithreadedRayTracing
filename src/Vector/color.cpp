@@ -1,6 +1,7 @@
 #include "color.hpp"
 
-void write_color(std::ostream& out, const color& pixel_color) {
+// out is an output stream, which can be std::cout or a file stream.
+void write_color(std::ostream &out, const color &pixel_color) {
     auto r = pixel_color.x();
     auto g = pixel_color.y();
     auto b = pixel_color.z();
