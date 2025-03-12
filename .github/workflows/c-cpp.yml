@@ -17,6 +17,15 @@ jobs:
     - name: Install dependencies
       run: sudo apt update && sudo apt install -y cmake g++ make
 
+    - name: Install Google Test
+      run: |
+        sudo apt update
+        sudo apt install -y libgtest-dev
+        cd /usr/src/gtest
+        sudo cmake .
+        sudo make
+        sudo cp lib/*.a /usr/lib
+
     # Create build directory and configure project
     - name: Configure CMake
       run: |
