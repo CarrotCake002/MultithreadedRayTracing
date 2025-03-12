@@ -8,16 +8,43 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-#    - name: configure
-#      run: ./configure
-    - name: make
+
+    # Create build directory
+    - name: Create build directory
+      run: mkdir build
+
+    # Configure CMake
+    - name: Configure CMake
+      run: cmake ../.
+
+    # Build the project
+    - name: Build the project
       run: make
-#    - name: make check
-#      run: make check
-#    - name: make distcheck
-#      run: make distcheck
+
+    # Run the executable
+    - name: Run the executable
+      run: ./raytracer 
+
+    - name: Enter test directory
+      run: cd ../test
+
+    # Create build directory
+    - name: Create build directory
+      run: mkdir build
+
+    # Configure CMake
+    - name: Configure CMake
+      run: cmake ../.
+
+    # Build the project
+    - name: Build the project
+      run: make
+
+    # Run the tests
+    - name: Run tests
+      run: ./vec3_test
+
