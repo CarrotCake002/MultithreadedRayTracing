@@ -2,22 +2,60 @@ name: C/C++ CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-#    - name: configure
-#      run: ./configure
-    - name: make
-      run: make
-#    - name: make check
-#      run: make check
-#    - name: make distcheck
-#      run: make distcheck
+
+    # Install dependencies (CMake, Make, g++)
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install -y cmake g++ make
+
+    - name: Install Google Test
+      run: |
+        sudo apt update
+        sudo apt install -y libgtest-dev
+        cd /usr/src/gtest
+        sudo cmake .
+        sudo make
+        sudo cp lib/*.a /usr/lib
+
+    # Create build directory and configure project
+    - name: Configure CMake
+      run: |
+        mkdir -p build
+        cd build
+        cmake ..
+
+    # Build the project with Make
+    - name: Build the project
+      run: |
+        cd build
+        make
+
+    # Run the executable
+    - name: Run the executable
+      run: ./build/raytracer
+
+    # Create and configure test build directory
+    - name: Configure CMake for Tests
+      run: |
+        mkdir -p tests/build
+        cd tests/build
+        cmake ..
+
+    # Build the tests with Make
+    - name: Build Tests
+      run: |
+        cd tests/build
+        make
+
+    # Run the tests
+    - name: Run Tests
+      run: ./tests/build/vec3_test

@@ -1,4 +1,4 @@
-#include "color.hpp"
+#include "Vector/color.hpp"
 
 // out is an output stream, which can be std::cout or a file stream.
 void write_color(std::ostream &out, const color &pixel_color) {
