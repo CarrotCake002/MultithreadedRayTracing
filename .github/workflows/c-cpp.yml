@@ -39,7 +39,7 @@ jobs:
       run: |
         mkdir -p test/build
         cd test/build
-        cmake ..
+        cmake ../..
 
     # Build the tests with Make
     - name: Build Tests
