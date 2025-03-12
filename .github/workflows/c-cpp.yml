@@ -37,16 +37,16 @@ jobs:
     # Create and configure test build directory
     - name: Configure CMake for Tests
       run: |
-        mkdir -p test/build
-        cd test/build
+        mkdir -p tests/build
+        cd tests/build
         cmake ..
 
     # Build the tests with Make
     - name: Build Tests
       run: |
-        cd test/build
+        cd tests/build
         make
 
     # Run the tests
     - name: Run Tests
-      run: ./test/build/vec3_test
+      run: ./tests/build/vec3_test
