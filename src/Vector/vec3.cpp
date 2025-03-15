@@ -1,6 +1,4 @@
-#include "vec3.hpp"
-
-using point3 = vec3;
+#include "Vector/vec3.hpp"
 
 std::ostream& operator<<(std::ostream &out, const vec3 &v) {
     return out << v.e[0] << ' ' << v.e[1] << ' ' << v.e[2];
