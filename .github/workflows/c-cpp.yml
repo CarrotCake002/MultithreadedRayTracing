@@ -58,4 +58,4 @@ jobs:
 
     # Run the tests
     - name: Run Tests
-      run: ./tests/build/vec3_test
+      run: ./tests/build/testing
