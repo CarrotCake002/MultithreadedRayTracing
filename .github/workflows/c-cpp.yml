@@ -2,9 +2,10 @@ name: C/C++ CI
 
 on:
   push:
-    branches-ignore: [ "main", "dev" ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ "main", "dev" ]
+    branches: [ main, dev ]
+
 
 jobs:
   build:
@@ -58,4 +59,4 @@ jobs:
 
     # Run the tests
     - name: Run Tests
-      run: ./tests/build/vec3_test
+      run: ./tests/build/testing
