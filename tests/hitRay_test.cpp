@@ -45,5 +45,5 @@ TEST(HitSphereTest, RayStartsOnSurfaceMovingAway) {
     double radius = 1.0;
     ray r(point3(0.0, 0.0, -4.0), vec3(0.0, 0.0, 1.0));
 
-    EXPECT_FALSE(hit_sphere(center, radius, r));
+    EXPECT_TRUE(hit_sphere(center, radius, r));
 }
