@@ -3,7 +3,6 @@ name: C/C++ CI
 on:
   push:
     branches: [ '**' ]
-    branches-ignore: [ main, dev ]
   pull_request:
     branches: [ main, dev ]
 
