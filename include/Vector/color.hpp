@@ -1,7 +1,8 @@
 #ifndef COLOR_HPP
 #define COLOR_HPP
 
-#include "vec3.hpp"
+#include "Vector/vec3.hpp"
+#include "Raytracer.hpp"
 
 using color = vec3;
 
