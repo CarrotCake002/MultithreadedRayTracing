@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 file(GLOB_RECURSE SRC_FILES "src/*.cpp")
 
 # Add the include directory
-include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/incldude/Vector/ ${CMAKE_SOURCE_DIR}/include/Hittables/ ${CMAKE_SOURCE_DIR}/include/Shapes/)
+include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/include/Vector/ ${CMAKE_SOURCE_DIR}/include/Hittables/ ${CMAKE_SOURCE_DIR}/include/Shapes/)
 
 # Define the executable
 add_executable(raytracer ${SRC_FILES})
