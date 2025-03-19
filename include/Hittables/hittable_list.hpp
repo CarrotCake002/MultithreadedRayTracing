@@ -1,7 +1,6 @@
 #ifndef HITTABLE_LIST_H
 #define HITTABLE_LIST_H
 
-#include "Raytracer.hpp"
 #include "hittable.hpp"
 
 #include <vector>
