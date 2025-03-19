@@ -15,7 +15,7 @@ TEST(HitSphereTest, RayHitsSphere) {
 }
 
 // Test when the ray completely misses the sphere
-TEST(HitSphereTest, RayMissesSphere) {
+TEST(HitSphereTest, RayMissesSphere) {  
     point3 center(0.0, 0.0, -5.0);
     double radius = 1.0;
     ray r(point3(0.0, 2.0, 0.0), vec3(0.0, 0.0, -1.0));
