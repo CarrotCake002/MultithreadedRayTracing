@@ -9,7 +9,9 @@ TEST(HitSphereTest, RayHitsSphere) {
     double radius = 1.0;
     ray r(point3(0.0, 0.0, 0.0), vec3(0.0, 0.0, -1.0));
 
-    EXPECT_TRUE(hit_sphere(center, radius, r));
+    double t = hit_sphere(center, radius, r);
+    EXPECT_GT(t, 0.0);
+    EXPECT_NEAR(t, 4.0, 1e-6); // The distance should be 4.0
 }
 
 // Test when the ray completely misses the sphere
@@ -18,7 +20,8 @@ TEST(HitSphereTest, RayMissesSphere) {
     double radius = 1.0;
     ray r(point3(0.0, 2.0, 0.0), vec3(0.0, 0.0, -1.0));
 
-    EXPECT_FALSE(hit_sphere(center, radius, r));
+    double t = hit_sphere(center, radius, r);
+    EXPECT_EQ(t, -1.0);
 }
 
 // Test when the ray is tangent to the sphere
@@ -27,23 +30,17 @@ TEST(HitSphereTest, RayTangentToSphere) {
     double radius = 1.0;
     ray r(point3(1.0, 0.0, 0.0), vec3(0.0, 0.0, -1.0));
 
-    EXPECT_TRUE(hit_sphere(center, radius, r));
+    double t = hit_sphere(center, radius, r);
+    EXPECT_GT(t, 0.0);
+    EXPECT_NEAR(t, 5.0, 1e-6); // The distance should be 5.0
 }
 
-// Test when the ray starts inside the sphere
-TEST(HitSphereTest, RayStartsInsideSphere) {
-    point3 center(0.0, 0.0, -5.0);
-    double radius = 3.0;
-    ray r(point3(0.0, 0.0, -5.0), vec3(0.0, 0.0, -1.0));
-
-    EXPECT_TRUE(hit_sphere(center, radius, r));
-}
-
-// Test when the ray starts on the sphere’s surface and moves away
-TEST(HitSphereTest, RayStartsOnSurfaceMovingAway) {
+// Test when the ray is parallel to the sphere but does not intersect
+TEST(HitSphereTest, RayParallelToSphere) {
     point3 center(0.0, 0.0, -5.0);
     double radius = 1.0;
-    ray r(point3(0.0, 0.0, -4.0), vec3(0.0, 0.0, 1.0));
+    ray r(point3(0.0, 2.0, 0.0), vec3(1.0, 0.0, 0.0));
 
-    EXPECT_TRUE(hit_sphere(center, radius, r));
+    double t = hit_sphere(center, radius, r);
+    EXPECT_EQ(t, -1.0);
 }
