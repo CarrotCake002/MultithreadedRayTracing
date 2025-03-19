@@ -2,6 +2,7 @@
 #define RAY_HPP
 
 #include "Vector/vec3.hpp"
+#include "Raytracer.hpp"
 
 class ray {
   public:
