@@ -1,8 +1,7 @@
 #ifndef VEC3_HPP
 #define VEC3_HPP
 
-#include <iostream>
-#include <cmath>
+#include "Raytracer.hpp"
 
 class vec3 {
 public:

@@ -1,7 +1,7 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
-#include "Ray.hpp"
+#include "Raytracer.hpp"
 
 class hit_record {
   public:
