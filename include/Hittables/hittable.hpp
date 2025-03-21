@@ -1,8 +1,8 @@
-#ifndef HITTABLE_H
-#define HITTABLE_H
+#ifndef HITTABLE_HPP
+#define HITTABLE_HPP
 
 #include "Ray.hpp"
-#include "Vector/vec3.hpp"
+#include "vec3.hpp"
 #include "interval.hpp"
 
 class hit_record {
