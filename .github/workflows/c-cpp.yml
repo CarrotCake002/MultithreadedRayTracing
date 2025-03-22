@@ -39,8 +39,8 @@ jobs:
         make
 
     # Run the executable
-    - name: Run the executable
-      run: ./build/raytracer
+    #- name: Run the executable
+    #  run: ./build/raytracer        # Can not run the executable due to the LONG execution time
 
     # Create and configure test build directory
     - name: Configure CMake for Tests
