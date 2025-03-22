@@ -3,6 +3,7 @@
 
 #include "hittable.hpp"
 #include "color.hpp"
+#include "Materials/material.hpp"
 
 class camera {
   public:
@@ -86,8 +87,6 @@ class camera {
     }
 
     color ray_color(const ray& r, int depth, const hittable& world) const {
-        double brigthness = 0.5;
-
         // If we've exceeded the ray bounce limit, no more light is gathered.
         if (depth <= 0)
             return color(0,0,0);
@@ -95,8 +94,11 @@ class camera {
         hit_record rec;
 
         if (world.hit(r, interval(0.001, infinity), rec)) {
-            vec3 direction = rec.normal + random_unit_vector();
-            return brigthness * ray_color(ray(rec.p, direction), depth-1, world);
+            ray scattered;
+            color attenuation;
+            if (rec.mat->scatter(r, rec, attenuation, scattered))
+                return attenuation * ray_color(scattered, depth-1, world);
+            return color(0,0,0);
         }
 
         vec3 unit_direction = unit_vector(r.direction());
