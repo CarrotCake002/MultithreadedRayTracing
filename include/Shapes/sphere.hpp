@@ -1,7 +1,7 @@
 #ifndef SPHERE_HPP
 #define SPHERE_HPP
 
-#include "hittable.hpp"
+#include "Hittables/hittable.hpp"
 
 class sphere : public hittable {
   public:

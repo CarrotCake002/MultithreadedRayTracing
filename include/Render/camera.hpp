@@ -1,9 +1,8 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "vec3.hpp"
-#include "hittable.hpp"
-#include "color.hpp"
+#include "Vector/vec3.hpp"
+#include "Hittables/hittable.hpp"
 #include "Materials/material.hpp"
 
 class camera {

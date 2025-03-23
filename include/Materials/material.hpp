@@ -1,8 +1,8 @@
 #ifndef MATERIAL_HPP
 #define MATERIAL_HPP
 
-#include "hittable.hpp"
-#include "color.hpp"
+#include "Hittables/hittable.hpp"
+#include "Vector/color.hpp"
 
 class material {
   public:

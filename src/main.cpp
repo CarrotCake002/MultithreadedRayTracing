@@ -1,6 +1,7 @@
-#include "hittable_list.hpp"
-#include "sphere.hpp"
-#include "camera.hpp"
+#include "Hittables/hittable_list.hpp"
+#include "Shapes/sphere.hpp"
+#include "Render/camera.hpp"
+#include "Vector/color.hpp"
 #include "Materials/material.hpp"
 
 int main() {
@@ -46,14 +47,16 @@ int main() {
     auto material3 = make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
     world.add(make_shared<sphere>(point3(4, 1, 0), 1.0, material3));
 
+    world.add(make_shared<sphere>(point3(3, 5, -5), 5.0, material3));
+
     camera cam;
 
     cam.aspect_ratio      = 16.0 / 9.0;
     cam.image_width       = 1200;
-    cam.samples_per_pixel = 500;
+    cam.samples_per_pixel = 100;
     cam.max_depth         = 50;
 
-    cam.vfov     = 20;
+    cam.vfov     = 50;
     cam.lookfrom = point3(13,2,3);
     cam.lookat   = point3(0,0,0);
     cam.vup      = vec3(0,1,0);
