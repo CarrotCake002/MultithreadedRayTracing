@@ -36,10 +36,3 @@ build/
 # VSCode files
 .vs
 .vscode
-
-# Image files
-*.ppm
-*.png
-*.jpg
-*.jpeg
-*.gif
