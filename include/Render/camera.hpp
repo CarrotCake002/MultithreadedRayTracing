@@ -121,7 +121,6 @@ class camera {
                 }
             }
         }
-        std::clog << "Done.\n" << std::flush;
     }
 
     ray get_ray(int i, int j) const {
