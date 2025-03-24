@@ -61,6 +61,8 @@ class camera {
     vec3   u, v, w;              // Camera frame basis vectors
     vec3   defocus_disk_u;       // Defocus disk horizontal radius
     vec3   defocus_disk_v;       // Defocus disk vertical radius
+    std::mutex progress_mutex;   // Mutex for thread-safe progress updates
+    int progress = 0;            // Progress counter
 
     void initialize() {
         image_height = int(image_width / aspect_ratio);
@@ -108,6 +110,15 @@ class camera {
                     pixel_color += ray_color(r, max_depth, world);
                 }
                 framebuffer[j * image_width + i] = pixel_samples_scale * pixel_color;
+            
+                // Update progress
+                {
+                    std::lock_guard<std::mutex> lock(progress_mutex);
+                    progress++;
+                    if (progress % (image_width * image_height / 100) == 0) {
+                        std::clog << "\rProgress: " << (100 * progress) / (image_width * image_height) << "%" << std::flush;
+                    }
+                }
             }
         }
     }
