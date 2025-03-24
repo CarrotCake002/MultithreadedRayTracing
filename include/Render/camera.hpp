@@ -4,6 +4,10 @@
 #include "Vector/vec3.hpp"
 #include "Hittables/hittable.hpp"
 #include "Materials/material.hpp"
+#include <thread>
+#include <vector>
+#include <mutex>
+#include <iostream>
 
 class camera {
   public:
@@ -23,22 +27,30 @@ class camera {
     void render(const hittable& world) {
         initialize();
 
-        std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+        std::vector<color> framebuffer(image_width * image_height);
+        std::vector<std::thread> threads;
+        int num_threads = std::thread::hardware_concurrency();
+        int chunk_size = image_height / num_threads;
 
-        for (int j = 0; j < image_height; j++) {
-            std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
-            for (int i = 0; i < image_width; i++) {
-                color pixel_color(0,0,0);
-                for (int sample = 0; sample < samples_per_pixel; sample++) {
-                    ray r = get_ray(i, j);
-                    pixel_color += ray_color(r, max_depth, world);
-                }
-                write_color(std::cout, pixel_samples_scale * pixel_color);
-            }
+        for (int t = 0; t < num_threads; ++t) {
+            int start_row = t * chunk_size;
+            int end_row = (t == num_threads - 1) ? image_height : start_row + chunk_size;
+            threads.emplace_back(&camera::render_chunk, this, start_row, end_row, std::ref(world), std::ref(framebuffer));
         }
 
-        std::clog << "\rDone.                 \n";
+        for (auto& thread : threads) {
+            thread.join();
+        }
+
+        // Write the framebuffer to an image file
+        std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+        for (int j = image_height - 1; j >= 0; --j) {
+            for (int i = 0; i < image_width; ++i) {
+                write_color(std::cout, framebuffer[j * image_width + i]);
+            }
+        }
     }
+
   private:
     int    image_height;   // Rendered image height
     double pixel_samples_scale;  // Color scale factor for a sum of pixel samples
@@ -49,6 +61,8 @@ class camera {
     vec3   u, v, w;              // Camera frame basis vectors
     vec3   defocus_disk_u;       // Defocus disk horizontal radius
     vec3   defocus_disk_v;       // Defocus disk vertical radius
+    std::mutex progress_mutex;   // Mutex for thread-safe progress updates
+    int progress = 0;            // Progress counter
 
     void initialize() {
         image_height = int(image_width / aspect_ratio);
@@ -85,6 +99,28 @@ class camera {
         auto defocus_radius = focus_dist * std::tan(degrees_to_radians(defocus_angle / 2));
         defocus_disk_u = u * defocus_radius;
         defocus_disk_v = v * defocus_radius;
+    }
+
+    void render_chunk(int start_row, int end_row, const hittable& world, std::vector<color>& framebuffer) {
+        for (int j = start_row; j < end_row; ++j) {
+            for (int i = 0; i < image_width; ++i) {
+                color pixel_color(0, 0, 0);
+                for (int sample = 0; sample < samples_per_pixel; ++sample) {
+                    ray r = get_ray(i, j);
+                    pixel_color += ray_color(r, max_depth, world);
+                }
+                framebuffer[(image_height - 1 - j) * image_width + i] = pixel_samples_scale * pixel_color;  // Invert the row index
+            
+                // Update progress
+                {
+                    std::lock_guard<std::mutex> lock(progress_mutex);
+                    progress++;
+                    if (progress % (image_width * image_height / 100) == 0) {
+                        std::clog << "\rProgress: " << (100 * progress) / (image_width * image_height) << "%" << std::flush;
+                    }
+                }
+            }
+        }
     }
 
     ray get_ray(int i, int j) const {
