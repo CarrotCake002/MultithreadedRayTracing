@@ -109,7 +109,7 @@ class camera {
                     ray r = get_ray(i, j);
                     pixel_color += ray_color(r, max_depth, world);
                 }
-                framebuffer[j * image_width + i] = pixel_samples_scale * pixel_color;
+                framebuffer[(image_height - 1 - j) * image_width + i] = pixel_samples_scale * pixel_color;  // Invert the row index
             
                 // Update progress
                 {
@@ -121,6 +121,7 @@ class camera {
                 }
             }
         }
+        std::clog << "Done.\n" << std::flush;
     }
 
     ray get_ray(int i, int j) const {
