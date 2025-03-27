@@ -90,7 +90,7 @@ This will run all the tests (80+ in total) and provide detailed output on the co
 │   ├── ray.hpp           # ray.cpp include file
 │   └── ...               # Additional include files
 ├── tests/
-│   ├── CMakeLists.txt
+│   ├── CMakeLists.txt    # CMake build for test configuration
 │   ├── ray_test.cpp      # Unit tests for mathematical accuracy of ray calculations
 │   └── ...               # Additional test files
 ├── CMakeLists.txt        # CMake build configuration
